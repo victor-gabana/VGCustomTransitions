@@ -7,15 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		973318711B67841F00A9F7A4 /* VGTransitioningDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973318701B67841F00A9F7A4 /* VGTransitioningDelegate.swift */; };
 		9778B5DB1B6147CE0054C718 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9778B5DA1B6147CE0054C718 /* AppDelegate.swift */; };
 		9778B5DD1B6147CE0054C718 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9778B5DC1B6147CE0054C718 /* MasterViewController.swift */; };
 		9778B5DF1B6147CE0054C718 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9778B5DE1B6147CE0054C718 /* DetailViewController.swift */; };
 		9778B5E21B6147CE0054C718 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9778B5E01B6147CE0054C718 /* Main.storyboard */; };
 		9778B5E41B6147CE0054C718 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9778B5E31B6147CE0054C718 /* Assets.xcassets */; };
 		9778B5E71B6147CE0054C718 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9778B5E51B6147CE0054C718 /* LaunchScreen.storyboard */; };
+		9778B5EF1B6148D50054C718 /* VGPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9778B5EE1B6148D50054C718 /* VGPresentationController.swift */; };
+		9778B5F11B6250260054C718 /* VGViewControllerAnimatedTransitioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9778B5F01B6250260054C718 /* VGViewControllerAnimatedTransitioning.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		973318701B67841F00A9F7A4 /* VGTransitioningDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VGTransitioningDelegate.swift; sourceTree = "<group>"; };
 		9778B5D71B6147CE0054C718 /* Custom Transations.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Custom Transations.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9778B5DA1B6147CE0054C718 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9778B5DC1B6147CE0054C718 /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
@@ -24,6 +28,8 @@
 		9778B5E31B6147CE0054C718 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9778B5E61B6147CE0054C718 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9778B5E81B6147CE0054C718 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9778B5EE1B6148D50054C718 /* VGPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VGPresentationController.swift; sourceTree = "<group>"; };
+		9778B5F01B6250260054C718 /* VGViewControllerAnimatedTransitioning.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VGViewControllerAnimatedTransitioning.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +65,9 @@
 				9778B5DA1B6147CE0054C718 /* AppDelegate.swift */,
 				9778B5DC1B6147CE0054C718 /* MasterViewController.swift */,
 				9778B5DE1B6147CE0054C718 /* DetailViewController.swift */,
+				973318701B67841F00A9F7A4 /* VGTransitioningDelegate.swift */,
+				9778B5EE1B6148D50054C718 /* VGPresentationController.swift */,
+				9778B5F01B6250260054C718 /* VGViewControllerAnimatedTransitioning.swift */,
 				9778B5E01B6147CE0054C718 /* Main.storyboard */,
 				9778B5E31B6147CE0054C718 /* Assets.xcassets */,
 				9778B5E51B6147CE0054C718 /* LaunchScreen.storyboard */,
@@ -139,6 +148,9 @@
 			files = (
 				9778B5DF1B6147CE0054C718 /* DetailViewController.swift in Sources */,
 				9778B5DD1B6147CE0054C718 /* MasterViewController.swift in Sources */,
+				973318711B67841F00A9F7A4 /* VGTransitioningDelegate.swift in Sources */,
+				9778B5F11B6250260054C718 /* VGViewControllerAnimatedTransitioning.swift in Sources */,
+				9778B5EF1B6148D50054C718 /* VGPresentationController.swift in Sources */,
 				9778B5DB1B6147CE0054C718 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -289,6 +301,7 @@
 				9778B5ED1B6147CE0054C718 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
