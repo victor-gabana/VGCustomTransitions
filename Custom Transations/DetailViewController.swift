@@ -8,9 +8,9 @@
 
 import UIKit
 
-class DetailViewController: UIViewController, UIViewControllerTransitioningDelegate {
+class DetailViewController: UIViewController {
 
-    private var customTransitioningDelegate: VGTransitioningDelegate?
+    private var customTransitioningDelegate: VGTransitioningDelegate = VGTransitioningDelegate()
     
     @IBOutlet weak var detailDescriptionLabel: UILabel!
     
@@ -21,11 +21,10 @@ class DetailViewController: UIViewController, UIViewControllerTransitioningDeleg
         // Set modal presentation style to Custom
         self.modalPresentationStyle = .Custom
         
-        // Stting the transition delegate
-        self.customTransitioningDelegate = VGTransitioningDelegate()
+        // Setting the transition delegate
+        self.customTransitioningDelegate.interactiveViewController = self
         self.transitioningDelegate = self.customTransitioningDelegate
     }
-
 
     @IBAction func dismissAction(sender: UIButton) {
         self.dismissViewControllerAnimated(true, completion: nil)

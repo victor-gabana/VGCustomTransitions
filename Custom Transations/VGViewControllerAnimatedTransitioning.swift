@@ -22,18 +22,16 @@ class VGViewControllerAnimatedTransitioning: NSObject, UIViewControllerAnimatedT
     // MARK: - UIViewControllerAnimatedTransitioning protocol
     
     /// This is used for percent driven interactive transitions, as well as for container controllers that have companion animations that might need to synchronize with the main animation.
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval
-    {
+    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
         return self.animationDuration
     }
     
     /// This method can only  be a nop if the transition is interactive and not a percentDriven interactive transition.
-    func animateTransition(transitionContext: UIViewControllerContextTransitioning)
-    {
+    func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
+
         if isPresenting {
             animatePresentationWithTransitionContext(transitionContext)
-        }
-        else {
+        } else {
             animateDismissalWithTransitionContext(transitionContext)
         }
     }
@@ -44,6 +42,7 @@ class VGViewControllerAnimatedTransitioning: NSObject, UIViewControllerAnimatedT
     // MARK: - Custom animation methods
     
     func animatePresentationWithTransitionContext(transitionContext: UIViewControllerContextTransitioning) {
+        
         // Gettting the view controllers and views
         let toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
         let toView = transitionContext.viewForKey(UITransitionContextToViewKey)!
@@ -67,32 +66,43 @@ class VGViewControllerAnimatedTransitioning: NSObject, UIViewControllerAnimatedT
         containerView.addSubview(toView)
         
         UIView.animateWithDuration(self.transitionDuration(transitionContext), delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
+            
             toView.center.y += verticalDisplacement
             toView.layer.transform = CATransform3DIdentity
+            
             }) { (completed: Bool) -> Void in
+            
                 toView.layer.transform = CATransform3DIdentity
                 
-                if (transitionContext.transitionWasCancelled()) {
+                if transitionContext.transitionWasCancelled() {
                     toView.removeFromSuperview()
+                    transitionContext.completeTransition(false)
+                } else {
+                    transitionContext.completeTransition(true)
                 }
-                transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
         }
     }
     
     func animateDismissalWithTransitionContext(transitionContext: UIViewControllerContextTransitioning) {
         
-        let fromViewController = transitionContext.viewForKey(UITransitionContextFromViewKey)!
         let fromView = transitionContext.viewForKey(UITransitionContextFromViewKey)!
         let containerView = transitionContext.containerView()!
         
         // Animate the presented view off the bottom of the view
-        UIView.animateWithDuration(self.animationDuration, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.5, options: .AllowUserInteraction, animations: {
-            fromViewController.center.y -= containerView.bounds.size.height
+        UIView.animateWithDuration(self.animationDuration, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.5, options: .CurveEaseInOut, animations: {
+            
+            fromView.center.y -= containerView.bounds.size.height
+            
             }, completion: {(completed: Bool) -> Void in
-                if (transitionContext.transitionWasCancelled()) {
+                
+                if transitionContext.transitionWasCancelled() {
+                    transitionContext.completeTransition(false)
+                    print("dismissal animation canceled")
+                } else {
+                    print("dismissal animation completed")
                     fromView.removeFromSuperview()
+                    transitionContext.completeTransition(true)
                 }
-                transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
         })
     }
 }

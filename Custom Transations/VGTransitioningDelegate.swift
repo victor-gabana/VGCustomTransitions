@@ -25,7 +25,39 @@ class VGTransitioningDelegate: NSObject, UIViewControllerTransitioningDelegate {
             return VGViewControllerAnimatedTransitioning(isPresenting: false)
     }
     
-    //    func interactionControllerForPresentation(animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning?
+    // MARK: Interactive transition
     
-    //    func interactionControllerForDismissal(animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning?
+    let percentDrivenIteratactiveTransition = VGPercentDrivenInteractiveTransition()
+    
+    func interactionControllerForPresentation(animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning?
+    {
+        if let presentingViewController = self.interactiveViewController.presentingViewController {
+            
+            self.percentDrivenIteratactiveTransition.attachToViewController(presentingViewController) // Master View Controller
+            
+            return self.percentDrivenIteratactiveTransition
+            
+        } else {
+            
+            self.percentDrivenIteratactiveTransition.attachToViewController(self.interactiveViewController) // Modal View Controller
+            
+            return nil
+        }
+        
+    }
+    
+    func interactionControllerForDismissal(animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning?
+    {
+        return self.percentDrivenIteratactiveTransition.isDrivenInteractiveTransition() ? self.percentDrivenIteratactiveTransition : nil
+    }
+    
+    // MARK: - Interactive animation class adjustmens
+    
+    var interactiveViewController: UIViewController! {
+        didSet {
+//            self.exitPanGesture = UIPanGestureRecognizer()
+//            self.exitPanGesture.addTarget(self, action:"handleOffstagePan:")
+//            self.menuViewController.view.addGestureRecognizer(self.exitPanGesture)
+        }
+    }
 }

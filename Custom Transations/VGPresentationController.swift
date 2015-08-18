@@ -84,7 +84,9 @@ class VGPresentationController: UIPresentationController {
         super.viewWillTransitionToSize(size, withTransitionCoordinator: transitionCoordinator)
         
         transitionCoordinator.animateAlongsideTransition({(context: UIViewControllerTransitionCoordinatorContext!) -> Void in
-            self.dimmingView.frame = self.containerView!.bounds
+            if let containerView = self.containerView {
+                self.dimmingView.frame = containerView.bounds
+            }
             },
             completion:nil)
     }
