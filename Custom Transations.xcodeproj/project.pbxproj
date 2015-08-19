@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		970A86051B6A2F0E00CB0FB3 /* VGPercentDrivenInteractiveTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 970A86041B6A2F0E00CB0FB3 /* VGPercentDrivenInteractiveTransition.swift */; };
 		973318711B67841F00A9F7A4 /* VGTransitioningDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973318701B67841F00A9F7A4 /* VGTransitioningDelegate.swift */; };
 		9778B5DB1B6147CE0054C718 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9778B5DA1B6147CE0054C718 /* AppDelegate.swift */; };
 		9778B5DD1B6147CE0054C718 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9778B5DC1B6147CE0054C718 /* MasterViewController.swift */; };
@@ -20,7 +19,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		970A86041B6A2F0E00CB0FB3 /* VGPercentDrivenInteractiveTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VGPercentDrivenInteractiveTransition.swift; sourceTree = "<group>"; };
 		973318701B67841F00A9F7A4 /* VGTransitioningDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VGTransitioningDelegate.swift; sourceTree = "<group>"; };
 		9778B5D71B6147CE0054C718 /* Custom Transations.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Custom Transations.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9778B5DA1B6147CE0054C718 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -70,7 +68,6 @@
 				973318701B67841F00A9F7A4 /* VGTransitioningDelegate.swift */,
 				9778B5EE1B6148D50054C718 /* VGPresentationController.swift */,
 				9778B5F01B6250260054C718 /* VGViewControllerAnimatedTransitioning.swift */,
-				970A86041B6A2F0E00CB0FB3 /* VGPercentDrivenInteractiveTransition.swift */,
 				9778B5E01B6147CE0054C718 /* Main.storyboard */,
 				9778B5E31B6147CE0054C718 /* Assets.xcassets */,
 				9778B5E51B6147CE0054C718 /* LaunchScreen.storyboard */,
@@ -154,7 +151,6 @@
 				973318711B67841F00A9F7A4 /* VGTransitioningDelegate.swift in Sources */,
 				9778B5F11B6250260054C718 /* VGViewControllerAnimatedTransitioning.swift in Sources */,
 				9778B5EF1B6148D50054C718 /* VGPresentationController.swift in Sources */,
-				970A86051B6A2F0E00CB0FB3 /* VGPercentDrivenInteractiveTransition.swift in Sources */,
 				9778B5DB1B6147CE0054C718 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

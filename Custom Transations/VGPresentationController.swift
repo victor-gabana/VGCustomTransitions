@@ -10,67 +10,75 @@ import UIKit
 
 class VGPresentationController: UIPresentationController {
     
-    
-    lazy var dimmingView: UIView = {
-        let dimmingView = UIView(frame: self.containerView!.bounds)
+    private let presentedViewFrameInset: CGFloat = 50
+    private let dimmingViewAlpha: CGFloat = 0.5
+    private lazy var dimmingView: UIView = {
+        let dimmingView = UIView()
+        if let containerView = self.containerView {
+            dimmingView.frame = containerView.bounds
+        }
         dimmingView.backgroundColor = UIColor.blackColor()
-
-        return dimmingView
-    }()
-    
-    
-    override func presentationTransitionWillBegin()
-    {
-        // Add a custom dimming view behind the presented view controller's view
-        self.containerView!.addSubview(self.dimmingView)
-        self.dimmingView.addSubview(self.presentedViewController.view)
         
+        return dimmingView
+        }()
+    
+    // MARK: - Overrinding UIPresentationController methods
+    
+    /// Add custom views to the view hierarchy and to create any animations associated with those views.
+    /// To ensure that your animations are executed at the same time as other transition animations, call animateAlongsideTransition:completion: or animateAlongsideTransitionInView:animation:completion: of the transition coordinator of the presented view controller.
+    override func presentationTransitionWillBegin() {
+        
+        // Set the dimmingView alpha to 0 for the beginning of the animation
         self.dimmingView.alpha = 0
         
-        // Use the transition coordinator to set up the animations, make sure our animation runs along side any other animations
-        if let transitionCoordinator = self.presentingViewController.transitionCoordinator()
-        {
-            // Fade in the dimming view during the transition.
-            transitionCoordinator.animateAlongsideTransition({(context: UIViewControllerTransitionCoordinatorContext!) -> Void in
-                self.dimmingView.alpha = 0.5
-                }, completion:nil)
-        }
-    }
-    
-    override func presentationTransitionDidEnd(completed: Bool)
-    {
-        if !completed
-        {
-            self.dimmingView.removeFromSuperview()
-        }
-    }
-    
-    override func dismissalTransitionWillBegin()
-    {
-        // Use the transition coordinator to set up the animations, make sure our animation runs along side any other animations
-        if let transitionCoordinator = self.presentingViewController.transitionCoordinator()
-        {
-            transitionCoordinator.animateAlongsideTransition({ (context: UIViewControllerTransitionCoordinatorContext) -> Void in
-                self.dimmingView.alpha = 0
-                }, completion: nil)
-        }
-    }
-    
-    override func dismissalTransitionDidEnd(completed: Bool)
-    {
-        if completed
-        {
-            self.dimmingView.removeFromSuperview()
-        }
-    }
-    
-    override func frameOfPresentedViewInContainerView() -> CGRect
-    {
-        // We don't want the presented view to fill the whole container view, so inset it's frame
-        var frame = self.containerView!.bounds;
-        frame = CGRectInset(frame, 50.0, 50.0)
+        // Use the transition coordinator to set up the animations, make sure our animation runs along side any other animations. Here we fade in the dimming view during the transition.
+        self.presentingViewController.transitionCoordinator()?.animateAlongsideTransition({(UIViewControllerTransitionCoordinatorContext) -> Void in
+            self.dimmingView.alpha = self.dimmingViewAlpha
+            }, completion:nil)
+
+        // Add the presented view controller's view to the dimmingView
+        self.dimmingView.addSubview(self.presentedViewController.view)
         
-        return frame
+        // Add the dimingView with the presented view to the containerView
+        self.containerView?.addSubview(self.dimmingView)
+    }
+    
+    /// Perform any required cleanup
+    override func presentationTransitionDidEnd(completed: Bool) {
+        
+        if !completed {
+            self.dimmingView.removeFromSuperview()
+        }
+    }
+    
+    /// Configure any animations associated with your presentation’s custom views.
+    /// To ensure that your animations are executed at the same time as other transition animations, call animateAlongsideTransition:completion: or animateAlongsideTransitionInView:animation:completion: of the transition coordinator of the presented view controller.
+    override func dismissalTransitionWillBegin() {
+        
+        // Use the transition coordinator to set up the animations, make sure our animation runs along side any other animations
+        self.presentingViewController.transitionCoordinator()?.animateAlongsideTransition({ (UIViewControllerTransitionCoordinatorContext) -> Void in
+            self.dimmingView.alpha = 0
+            }, completion: nil)
+    }
+    
+    /// Only if the completed parameter is true remove any custom views that the presentation controller added to the view hierarchy.
+    override func dismissalTransitionDidEnd(completed: Bool) {
+        
+        if completed {
+            self.dimmingView.removeFromSuperview()
+        }
+    }
+    
+    /// Returns the frame rectangle to assign to the presented view at the end of the animations.
+    /// This method is called multiple times during the course of a presentation, so your return always the same frame.
+    override func frameOfPresentedViewInContainerView() -> CGRect {
+        
+        if let containerView = self.containerView {
+            // Inset the presented view frame so it wont be full screen
+            return CGRectInset(containerView.bounds, self.presentedViewFrameInset, self.presentedViewFrameInset)
+        } else {
+            return CGRectZero
+        }
     }
     
     // MARK: - UIContentContainer Protocol
@@ -83,7 +91,7 @@ class VGPresentationController: UIPresentationController {
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator transitionCoordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransitionToSize(size, withTransitionCoordinator: transitionCoordinator)
         
-        transitionCoordinator.animateAlongsideTransition({(context: UIViewControllerTransitionCoordinatorContext!) -> Void in
+        transitionCoordinator.animateAlongsideTransition({(UIViewControllerTransitionCoordinatorContext) -> Void in
             if let containerView = self.containerView {
                 self.dimmingView.frame = containerView.bounds
             }

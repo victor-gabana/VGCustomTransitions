@@ -10,8 +10,10 @@ import UIKit
 
 class VGViewControllerAnimatedTransitioning: NSObject, UIViewControllerAnimatedTransitioning {
     
-    let animationDuration : NSTimeInterval = 1
-    let isPresenting :Bool
+    private let animationDuration : NSTimeInterval = 1
+    private let isPresenting :Bool
+    
+    // MARK: - Life cycle
     
     init(isPresenting: Bool) {
         self.isPresenting = isPresenting
@@ -21,14 +23,15 @@ class VGViewControllerAnimatedTransitioning: NSObject, UIViewControllerAnimatedT
     
     // MARK: - UIViewControllerAnimatedTransitioning protocol
     
-    /// This is used for percent driven interactive transitions, as well as for container controllers that have companion animations that might need to synchronize with the main animation.
+    /// This method returns the time that the animation will take (without considering interactive transitions, even if they are implemented). Must be the same value that is used in the animations of the following method (animateTransition:).
+    /// This value is used to synch other animations like by instance change the nabvigation bar in the navigation controller or make some other change in custom container view controllers.
     func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
         return self.animationDuration
     }
     
-    /// This method can only  be a nop if the transition is interactive and not a percentDriven interactive transition.
+    /// This method is called when presenting or dismissing a view controller.
+    /// All animations must take place in the containerView of transitionContext. Add the view being presented or revelaned to it and perform your animations
     func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
-
         if isPresenting {
             animatePresentationWithTransitionContext(transitionContext)
         } else {
@@ -37,16 +40,17 @@ class VGViewControllerAnimatedTransitioning: NSObject, UIViewControllerAnimatedT
     }
     
     /// This is a convenience and if implemented will be invoked by the system when the transition context's completeTransition: method is invoked.
+    /// It is called at the end of a transition to let you know the results. Use this method to perform any final cleanup operations required by your transition animator when the transition finishes.
 //    optional func animationEnded(transitionCompleted: Bool)
     
     // MARK: - Custom animation methods
     
-    func animatePresentationWithTransitionContext(transitionContext: UIViewControllerContextTransitioning) {
+    private func animatePresentationWithTransitionContext(transitionContext: UIViewControllerContextTransitioning) {
         
         // Gettting the view controllers and views
-        let toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
-        let toView = transitionContext.viewForKey(UITransitionContextToViewKey)!
-        let containerView = transitionContext.containerView()!
+        guard let toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey) else { return }
+        guard let toView = transitionContext.viewForKey(UITransitionContextToViewKey) else { return }
+        guard let containerView = transitionContext.containerView() else { return }
         
         toView.layer.anchorPoint = CGPointMake(0.5, 0.0)
         // Position the presented view off the top of the container view
@@ -56,9 +60,9 @@ class VGViewControllerAnimatedTransitioning: NSObject, UIViewControllerAnimatedT
         let verticalDisplacement  = CGFloat(100)
         toView.center.y -= verticalDisplacement
         
-        // Trnasformation
+        // Transformation
         var viewToTransform: CATransform3D = CATransform3DMakeRotation(CGFloat(M_PI_2), 1.0, 0.0, 0.0)
-        // Giving some perspective
+        // Giving it some perspective
         viewToTransform.m34 = CGFloat(0.001)
         toView.layer.transform = viewToTransform
         
@@ -83,23 +87,21 @@ class VGViewControllerAnimatedTransitioning: NSObject, UIViewControllerAnimatedT
         }
     }
     
-    func animateDismissalWithTransitionContext(transitionContext: UIViewControllerContextTransitioning) {
+    private func animateDismissalWithTransitionContext(transitionContext: UIViewControllerContextTransitioning) {
         
-        let fromView = transitionContext.viewForKey(UITransitionContextFromViewKey)!
-        let containerView = transitionContext.containerView()!
+        // Gettting the view controllers and views
+        guard let fromView = transitionContext.viewForKey(UITransitionContextFromViewKey) else { return }
         
         // Animate the presented view off the bottom of the view
         UIView.animateWithDuration(self.animationDuration, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.5, options: .CurveEaseInOut, animations: {
             
-            fromView.center.y -= containerView.bounds.size.height
+            fromView.frame.origin.y = -fromView.bounds.height
             
             }, completion: {(completed: Bool) -> Void in
                 
                 if transitionContext.transitionWasCancelled() {
                     transitionContext.completeTransition(false)
-                    print("dismissal animation canceled")
                 } else {
-                    print("dismissal animation completed")
                     fromView.removeFromSuperview()
                     transitionContext.completeTransition(true)
                 }

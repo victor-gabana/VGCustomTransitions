@@ -10,6 +10,12 @@ import UIKit
 
 class VGTransitioningDelegate: NSObject, UIViewControllerTransitioningDelegate {
     
+    internal var isDrivenInteractiveDismissalTransition = false
+    internal lazy var percentDrivenIteratactiveTransition: UIPercentDrivenInteractiveTransition = {
+        return UIPercentDrivenInteractiveTransition()
+        }()
+    
+    
     // MARK: - UIViewControllerTransitioningDelegate
     
     func presentationControllerForPresentedViewController(presented: UIViewController, presentingViewController presenting: UIViewController, sourceViewController source: UIViewController) -> UIPresentationController? {
@@ -25,39 +31,13 @@ class VGTransitioningDelegate: NSObject, UIViewControllerTransitioningDelegate {
             return VGViewControllerAnimatedTransitioning(isPresenting: false)
     }
     
-    // MARK: Interactive transition
+    // MARK: Interactive transition methods
     
-    let percentDrivenIteratactiveTransition = VGPercentDrivenInteractiveTransition()
-    
-    func interactionControllerForPresentation(animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning?
-    {
-        if let presentingViewController = self.interactiveViewController.presentingViewController {
-            
-            self.percentDrivenIteratactiveTransition.attachToViewController(presentingViewController) // Master View Controller
-            
-            return self.percentDrivenIteratactiveTransition
-            
-        } else {
-            
-            self.percentDrivenIteratactiveTransition.attachToViewController(self.interactiveViewController) // Modal View Controller
-            
-            return nil
-        }
-        
+     func interactionControllerForPresentation(animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        return nil 
     }
     
-    func interactionControllerForDismissal(animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning?
-    {
-        return self.percentDrivenIteratactiveTransition.isDrivenInteractiveTransition() ? self.percentDrivenIteratactiveTransition : nil
-    }
-    
-    // MARK: - Interactive animation class adjustmens
-    
-    var interactiveViewController: UIViewController! {
-        didSet {
-//            self.exitPanGesture = UIPanGestureRecognizer()
-//            self.exitPanGesture.addTarget(self, action:"handleOffstagePan:")
-//            self.menuViewController.view.addGestureRecognizer(self.exitPanGesture)
-        }
+    func interactionControllerForDismissal(animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        return self.isDrivenInteractiveDismissalTransition ? self.percentDrivenIteratactiveTransition : nil
     }
 }
