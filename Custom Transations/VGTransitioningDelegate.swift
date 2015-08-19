@@ -10,6 +10,12 @@ import UIKit
 
 class VGTransitioningDelegate: NSObject, UIViewControllerTransitioningDelegate {
     
+    internal var isDrivenInteractiveDismissalTransition = false
+    internal lazy var percentDrivenIteratactiveTransition: UIPercentDrivenInteractiveTransition = {
+        return UIPercentDrivenInteractiveTransition()
+        }()
+    
+    
     // MARK: - UIViewControllerTransitioningDelegate
     
     func presentationControllerForPresentedViewController(presented: UIViewController, presentingViewController presenting: UIViewController, sourceViewController source: UIViewController) -> UIPresentationController? {
@@ -25,7 +31,13 @@ class VGTransitioningDelegate: NSObject, UIViewControllerTransitioningDelegate {
             return VGViewControllerAnimatedTransitioning(isPresenting: false)
     }
     
-    //    func interactionControllerForPresentation(animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning?
+    // MARK: Interactive transition methods
     
-    //    func interactionControllerForDismissal(animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning?
+     func interactionControllerForPresentation(animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        return nil 
+    }
+    
+    func interactionControllerForDismissal(animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        return self.isDrivenInteractiveDismissalTransition ? self.percentDrivenIteratactiveTransition : nil
+    }
 }

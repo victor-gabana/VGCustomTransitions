@@ -10,7 +10,6 @@ import UIKit
 
 class MasterViewController: UITableViewController {
 
-    var detailViewController: DetailViewController? = nil
     let objects = ["Animation"]
 
     // MARK: - Segues
@@ -28,14 +27,14 @@ class MasterViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return objects.count
+        return self.objects.count
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath)
         
-        cell.textLabel?.text = objects[indexPath.row]
+        cell.textLabel?.text = self.objects[indexPath.row]
 
         return cell
     }
